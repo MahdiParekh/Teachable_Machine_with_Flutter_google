@@ -34,13 +34,14 @@ class _CameraLiveScreenState extends State<CameraLiveScreen> {
     } else {
       controller = new CameraController(
         widget.cameras[1],
-        ResolutionPreset.medium,
+        ResolutionPreset.high,
       );
       controller.initialize().then((_) {
         if (!mounted) {
           return;
         }
         setState(() {});
+
 
         controller.startImageStream((CameraImage img) {
           if (!isDetecting) {
@@ -58,7 +59,7 @@ class _CameraLiveScreenState extends State<CameraLiveScreen> {
               ).then((recognitions) {
                 int endTime = new DateTime.now().millisecondsSinceEpoch;
                 print("Detection took ${endTime - startTime}");
-
+                print(recognitions);
                 widget.setRecognitions(recognitions, img.height, img.width);
 
                 isDetecting = false;
@@ -91,12 +92,15 @@ class _CameraLiveScreenState extends State<CameraLiveScreen> {
     var screenRatio = screenH / screenW;
     var previewRatio = previewH / previewW;
 
-    return OverflowBox(
-      maxHeight:
-          screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
-      maxWidth:
-          screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
-      child: CameraPreview(controller),
+    return RotatedBox(
+      quarterTurns: 90,
+      child: OverflowBox(
+        maxHeight:
+            screenRatio > previewRatio ? screenH : screenW / previewW * previewH,
+        maxWidth:
+            screenRatio > previewRatio ? screenH / previewH * previewW : screenW,
+        child: Transform.rotate(angle: 4.7205, child: CameraPreview(controller)),
+      ),
     );
   }
 }

@@ -26,7 +26,7 @@ class EnclosedBox extends StatelessWidget {
             style: TextStyle(
               // color: Color.fromRGBO(37, 213, 253, 1.0),
               color: Colors.red,
-              fontSize: 54.0,
+              fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
           ),
